@@ -15,7 +15,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
 }
 
 bool readParameters(ros::NodeHandle nodeHandle, float& pick_up_x, float& pick_up_y,
-float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w, float& tolerance){
+float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w,){
 	if(!nodeHandle.getParam("/add_markers/pick_up_x", pick_up_x)){
 		return false;
 	}
@@ -32,9 +32,6 @@ float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w, float
 		return false;
 	}
 	if(!nodeHandle.getParam("/add_markers/drop_off_w", drop_off_w)){
-		return false;
-	}
-  if(!nodeHandle.getParam("/add_markers/distance_tolerance", tolerance)){
 		return false;
 	}
 	return true;
@@ -57,9 +54,8 @@ int main( int argc, char** argv )
   float drop_off_y = 1.0;
   float drop_off_w = 1.0;
 
-  float tolerance = 0.15;
 
-  if (!readParameters(nodeHandle, pick_up_x, pick_up_y, pick_up_w, drop_off_x, drop_off_y, drop_off_w, tolerance)){
+  if (!readParameters(nodeHandle, pick_up_x, pick_up_y, pick_up_w, drop_off_x, drop_off_y, drop_off_w)){
 		ROS_ERROR("Could not read params.");
 		ros::requestShutdown();
 	}
