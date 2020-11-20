@@ -15,7 +15,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
 }
 
 bool readParameters(ros::NodeHandle nodeHandle, float& pick_up_x, float& pick_up_y,
-float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w,){
+float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w){
 	if(!nodeHandle.getParam("/add_markers/pick_up_x", pick_up_x)){
 		return false;
 	}
@@ -68,7 +68,6 @@ int main( int argc, char** argv )
   // Define picking variables
   float x_distance;
   float y_distance;
-  float radius;
   bool pick_up;
   bool drop = false;
  
