@@ -2,9 +2,9 @@
 
 path_ws="/home/workspace/catkin_ws"
 
-xterm -e "cd ${path_ws}; source devel/setup.bash; export TURTLEBOT_GAZEBO_WORLD_FILE=${path_ws}/src/worlds/world/myworld_white_ball; roslaunch turtlebot_gazebo turtlebot_world.launch" &
+xterm -e "cd ${path_ws}; source devel/setup.bash; export TURTLEBOT_GAZEBO_WORLD_FILE=${path_ws}/src/HomeServiceRobot/worlds/world/featured_world; roslaunch turtlebot_gazebo turtlebot_world.launch" &
 
-sleep 5
+sleep 30
 xterm -e "cd ${path_ws}; source devel/setup.bash; roslaunch turtlebot_gazebo gmapping_demo.launch" &
 
 sleep 5
