@@ -13,7 +13,7 @@ $ sudo apt-get install ros-kinetic-move-base
 $ sudo apt-get install ros-kinetic-amcl
 ```
 
-* Clone the repo. Note that the repo uses git lfs to maintain the large map file. Install git lfs as shown below:
+* Clone the repo. Note that the repo uses git submodules to maintain the third party repos
 ```
 $ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 $ sudo apt install git-lfs
