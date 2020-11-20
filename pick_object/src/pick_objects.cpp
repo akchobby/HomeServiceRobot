@@ -74,10 +74,10 @@ int main(int argc, char** argv){
       goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(goals[i][2]);
 
        // Send the goal position and orientation for the robot to reach
-      ROS_INFO("Sending goal [%f], [%f], [%f]", goals[i][0], goals[i][1], goals[i][2]);
+      ROS_INFO("Sending goal [%f,  %f,  %f]", goals[i][0], goals[i][1], goals[i][2]);
       ac.sendGoal(goal);
 
-      // Wait an infinite time for the results
+      // Wait  time for the results
       ac.waitForResult();
 
       // Check if the robot reached its goal
