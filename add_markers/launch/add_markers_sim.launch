@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Launch ROS Package Template Node -->
+  <node pkg="add_markers" type="add_markers_sim" name="add_markers_sim" output="screen">
+    <rosparam command="load" file="$(find add_markers)/params/params.yaml"/>
+  </node>
+</launch>

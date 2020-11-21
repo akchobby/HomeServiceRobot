@@ -6,32 +6,24 @@
 #include "nav_msgs/Odometry.h"
 
 
-float odom_x = 0.0;
-float odom_y = 0.0;
-
-void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
-  ::odom_x = msg->pose.pose.position.x;
-  ::odom_y = msg->pose.pose.position.y;
-}
-
 bool readParameters(ros::NodeHandle nodeHandle, float& pick_up_x, float& pick_up_y,
 float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w){
-	if(!nodeHandle.getParam("/add_markers/pick_up_x", pick_up_x)){
+	if(!nodeHandle.getParam("/add_markers_sim/pick_up_x", pick_up_x)){
 		return false;
 	}
-	if(!nodeHandle.getParam("/add_markers/pick_up_y", pick_up_y)){
+	if(!nodeHandle.getParam("/add_markers_sim/pick_up_y", pick_up_y)){
 		return false;
 	}
-	if(!nodeHandle.getParam("/add_markers/pick_up_w", pick_up_w)){
+	if(!nodeHandle.getParam("/add_markers_sim/pick_up_w", pick_up_w)){
 		return false;
 	}
-	if(!nodeHandle.getParam("/add_markers/drop_off_x", drop_off_x)){
+	if(!nodeHandle.getParam("/add_markers_sim/drop_off_x", drop_off_x)){
 		return false;
 	}
-	if(!nodeHandle.getParam("/add_markers/drop_off_y", drop_off_y)){
+	if(!nodeHandle.getParam("/add_markers_sim/drop_off_y", drop_off_y)){
 		return false;
 	}
-	if(!nodeHandle.getParam("/add_markers/drop_off_w", drop_off_w)){
+	if(!nodeHandle.getParam("/add_markers_sim/drop_off_w", drop_off_w)){
 		return false;
 	}
 	return true;
@@ -39,13 +31,12 @@ float& pick_up_w, float& drop_off_x, float& drop_off_y, float& drop_off_w){
 
 int main( int argc, char** argv )
 {
-  ros::init(argc, argv, "add_markers");
+  ros::init(argc, argv, "add_markers_sim");
 
   ros::NodeHandle nodeHandle("~");
   ros::Rate r(1);
 
   ros::Publisher marker_pub = nodeHandle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-  ros::Subscriber odometry_sub = nodeHandle.subscribe("/odom", 10, odomCallback);
 
   float pick_up_x = 0.0;
   float pick_up_y = 0.0;
@@ -68,8 +59,7 @@ int main( int argc, char** argv )
   // Define picking variables
   float x_distance;
   float y_distance;
-  bool pick_up;
-  bool drop = false;
+  bool picked = false;
  
   // Set our initial shape type to be a sphere
   uint32_t shape = visualization_msgs::Marker::SPHERE;
@@ -81,7 +71,7 @@ int main( int argc, char** argv )
   marker.header.stamp = ros::Time::now();
 
   // Set the namespace and id for this marker.  This serves to create a unique ID
-  marker.ns = "add_markers";
+  marker.ns = "add_markers_sim";
   marker.id = 0;
 
   // Set the marker type.
@@ -118,38 +108,28 @@ int main( int argc, char** argv )
       ROS_WARN_ONCE("Please create a subscriber to the marker");
       sleep(1);
     }
-	
-    nodeHandle.getParam("/at_pick_up", pick_up);
-
-	
-    if (!pick_up){
-      marker_pub.publish(marker);
-    }else{
-	if(!drop){
-		ROS_INFO("Picking Up Marker");
-		ros::Duration(5.0).sleep();
-		marker.action = visualization_msgs::Marker::DELETE;
-		ROS_INFO("Pick Up Done");
-		nodeHandle.setParam("/at_pick_up", false);
-		drop =true;
+	marker_pub.publish(marker);
+	if(!picked){
+	ROS_INFO("Picking Up Marker");
+	ros::Duration(5.0).sleep();
+	marker.action = visualization_msgs::Marker::DELETE;
+	ROS_INFO("Pick Up Done");
+	picked = true;
 	}else{
-		marker.action = visualization_msgs::Marker::ADD;
-		marker.pose.position.x = goals[1][0];
-		marker.pose.position.y = goals[1][1];
-		marker.pose.position.z = 0.5; //to view on floor
-		marker.pose.orientation = tf::createQuaternionMsgFromYaw(goals[1][2]);
-		ROS_INFO("Droping off");
-		ros::Duration(5.0).sleep();
-		marker_pub.publish(marker);
-		ROS_INFO("Drop off Done");
-		ros::Duration(5.0).sleep();
-		ros::requestShutdown();
+	marker.action = visualization_msgs::Marker::ADD;
+	marker.pose.position.x = goals[1][0];
+	marker.pose.position.y = goals[1][1];
+	marker.pose.position.z = 0.5; //to view on floor
+	marker.pose.orientation = tf::createQuaternionMsgFromYaw(goals[1][2]);
+	ROS_INFO("Droping off");
+	ros::Duration(5.0).sleep();
+	marker_pub.publish(marker);
+	ROS_INFO("Drop off Done");
+	ros::Duration(5.0).sleep();
+	ros::requestShutdown();
 	}
-    }
-
-  ros::spinOnce();
-
-  r.sleep();
+	ros::spinOnce();
+  	r.sleep();
   }
  
 }

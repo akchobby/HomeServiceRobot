@@ -7,10 +7,10 @@ sleep 20
 xterm -e "cd $(rospack find add_markers) && cd ../; source ../../devel/setup.bash; export TURTLEBOT_GAZEBO_MAP_FILE=$(echo $(cd $(rospack find add_markers) && cd ../ && pwd))/map/maps/my_map.yaml;roslaunch turtlebot_gazebo amcl_demo.launch" &
 
 sleep 30
-xterm -e "cd $(rospack find add_markers) && cd ../; source ../../devel/setup.bash; roslaunch add_markers view_navigation.launch" &
+xterm -e "cd $(rospack find add_markers) && cd ../; source ../../devel/setup.bash; roslaunch add_markers view_navigation_sim.launch" &
 
 
-sleep 5
-xterm -e "cd $(rospack find add_markers) && cd ../; source ../../devel/setup.bash; roslaunch add_markers add_markers.launch" &
+sleep 15
+xterm -e "cd $(rospack find add_markers) && cd ../; source ../../devel/setup.bash; roslaunch add_markers add_markers_sim.launch" &
 
 

@@ -30,6 +30,7 @@ $ git clone --recursive <repo/link>
 ```
 The above is for latest git version, in case of any issue refer this [link](https://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules)
 
+*  As some tutors didn't get the link to the repo , a zip file was submitted, hence unzip the HomeServiceRobot folder to the src directory of your catkin_ws
 
 * After building the repo, to launch the pick and place simulation,run as shown below:
 
@@ -37,8 +38,6 @@ The above is for latest git version, in case of any issue refer this [link](http
 cd scripts
 ./home_service.sh
 ```
-
-Note that the path to the catkin workspace can be modified in the shell scripts according to your systems path by editing the path_ws variable in the shell scripts.
 
 * Note the on running the scripts, the load up is slow as there have been sleeps inserted in the shell scripts so that each system can load properly.
 
